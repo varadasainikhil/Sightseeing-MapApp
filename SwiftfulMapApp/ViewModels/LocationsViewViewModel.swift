@@ -22,8 +22,12 @@ class LocationsViewViewModel{
     var mapLocation : Location {
         didSet{
             updateMapPosition(location: mapLocation)
+            selectedLocation = mapLocation
         }
     }
+    
+    //
+    var selectedLocation : Location?
     
     // Show list of locations
     var showLocations = false
@@ -39,6 +43,7 @@ class LocationsViewViewModel{
         self.locations = locations
         self.mapLocation = locations.first!
         self.mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: locations.first!.coordinates, span: mapSpan))
+        self.selectedLocation = locations.first!
     }
     
     private func updateMapPosition(location : Location){

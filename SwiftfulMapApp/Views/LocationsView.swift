@@ -14,12 +14,14 @@ struct LocationsView: View {
     var body: some View {
         @Bindable var viewModel = viewModel
         ZStack{
-            Map(position: $viewModel.mapPosition){
+            Map(position: $viewModel.mapPosition, selection: $viewModel.selectedLocation){
                 ForEach(viewModel.locations){location in
                     Marker(location.name, coordinate: location.coordinates)
+                        .tag(location)
                         
                 }
             }
+    
             
             VStack(spacing: 0){
                 Header()

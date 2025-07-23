@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-struct Location : Identifiable, Hashable{
+struct Location : Identifiable, Equatable, Hashable{
     static func == (lhs: Location, rhs: Location) -> Bool {
         lhs.id == rhs.id
     }
