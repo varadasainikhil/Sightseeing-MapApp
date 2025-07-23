@@ -8,7 +8,15 @@
 import Foundation
 import MapKit
 
-struct Location : Identifiable{
+struct Location : Identifiable, Hashable{
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     var name : String
     var cityName : String
     var coordinates : CLLocationCoordinate2D

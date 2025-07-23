@@ -30,7 +30,7 @@ class LocationsViewViewModel{
     
     // Current Map Region
     var mapPosition : MapCameraPosition
-
+    
     // static map span
     let mapSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     
@@ -53,10 +53,13 @@ class LocationsViewViewModel{
             return
         }
         if index == locations.count-1{
+            
             mapLocation = locations[0]
+            
         }
         else{
             mapLocation = locations[index + 1]
+            
         }
     }
 }

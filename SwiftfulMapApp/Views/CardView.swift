@@ -11,11 +11,14 @@ struct CardView: View {
     @Environment(LocationsViewViewModel.self) var viewModel
     var body: some View {
         ZStack{
-            RoundedRectangle(cornerRadius: 15)
-                .foregroundStyle(.white)
-                .frame(height: 150)
-                .frame(maxWidth: .infinity)
-                .shadow(radius: 20)
+            HStack{
+                
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 175)
+            .shadow(radius: 20)
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
             
             HStack{
                 VStack(alignment: .leading, spacing: 0){
@@ -23,7 +26,7 @@ struct CardView: View {
                         RoundedRectangle(cornerRadius: 13)
                             .foregroundStyle(.white)
                             .frame(width: 110, height: 110)
-                            
+                        
                         
                         Image(viewModel.mapLocation.imageNames.first!)
                             .resizable()
@@ -36,7 +39,7 @@ struct CardView: View {
                     Text(viewModel.mapLocation.name)
                         .font(.headline.bold())
                         .frame(minHeight: 40)
-   
+                    
                 }
                 .padding(.horizontal)
                 .offset(y:-30)
@@ -62,6 +65,8 @@ struct CardView: View {
                     Button {
                         // Action to go to next
                         viewModel.goToNextLocation()
+                            
+                        
                     } label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 12)
@@ -73,10 +78,10 @@ struct CardView: View {
                                 .font(.title3.bold())
                         }
                     }
-                        
+                    
                 }
                 .padding(.horizontal)
-
+                
             }
             .padding()
             
