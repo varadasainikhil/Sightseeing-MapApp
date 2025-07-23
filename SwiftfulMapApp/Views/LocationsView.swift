@@ -13,7 +13,20 @@ struct LocationsView: View {
     
     var body: some View {
         @Bindable var viewModel = viewModel
-        Map(position: $viewModel.mapPosition){
+        ZStack{
+            Map(position: $viewModel.mapPosition){
+                ForEach(viewModel.locations){location in
+                    Marker(location.name, coordinate: location.coordinates)
+                        
+                }
+            }
+            VStack(spacing: 0){
+                Header()
+                Spacer()
+                CardView()
+                    .padding(.horizontal)
+            }
+            
             
         }
     }
@@ -23,3 +36,4 @@ struct LocationsView: View {
     LocationsView()
         .environment(LocationsViewViewModel())
 }
+

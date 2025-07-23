@@ -14,13 +14,20 @@ class LocationsViewViewModel{
     // All Loaded Locations
     var locations : [Location]
     
+    var allLocationsExpectSelected : [Location]{
+        locations.filter({$0.id != mapLocation.id})
+    }
+    
     // Current Selected Location
     var mapLocation : Location {
         didSet{
             updateMapPosition(location: mapLocation)
         }
     }
-
+    
+    // Show list of locations
+    var showLocations = false
+    
     // Current Map Region
     var mapPosition : MapCameraPosition
 
@@ -37,6 +44,19 @@ class LocationsViewViewModel{
     private func updateMapPosition(location : Location){
         withAnimation {
             mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: location.coordinates, span: mapSpan))
+        }
+    }
+    
+    func goToNextLocation(){
+        guard let index = locations.firstIndex(where: {$0.id == mapLocation.id}) else {
+            print("Index not found.")
+            return
+        }
+        if index == locations.count-1{
+            mapLocation = locations[0]
+        }
+        else{
+            mapLocation = locations[index + 1]
         }
     }
 }
