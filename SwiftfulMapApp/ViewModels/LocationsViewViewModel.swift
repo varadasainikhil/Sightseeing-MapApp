@@ -5,6 +5,8 @@
 //  Created by Sai Nikhil Varada on 7/23/25.
 //
 
+
+
 import Foundation
 import MapKit
 import SwiftUI
@@ -26,8 +28,14 @@ class LocationsViewViewModel{
         }
     }
     
-    //
-    var selectedLocation : Location?
+    // For Map selection binding only
+    var selectedLocation : Location? {
+        didSet {
+            if let selectedLocation = selectedLocation, selectedLocation.id != mapLocation.id {
+                mapLocation = selectedLocation
+            }
+        }
+    }
     
     // Show list of locations
     var showLocations = false
@@ -41,9 +49,14 @@ class LocationsViewViewModel{
     init() {
         let locations = LocationsDataService.locations
         self.locations = locations
-        self.mapLocation = locations.first!
-        self.mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: locations.first!.coordinates, span: mapSpan))
-        self.selectedLocation = locations.first!
+        
+        guard let firstLocation = locations.first else {
+            fatalError("No locations available in LocationsDataService")
+        }
+        
+        self.mapLocation = firstLocation
+        self.mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: firstLocation.coordinates, span: mapSpan))
+        self.selectedLocation = firstLocation
     }
     
     private func updateMapPosition(location : Location){
@@ -58,13 +71,14 @@ class LocationsViewViewModel{
             return
         }
         if index == locations.count-1{
-            
-            mapLocation = locations[0]
-            
+            withAnimation {
+                mapLocation = locations[0]
+            }
         }
         else{
-            mapLocation = locations[index + 1]
-            
+            withAnimation {
+                mapLocation = locations[index + 1]
+            }
         }
     }
 }
