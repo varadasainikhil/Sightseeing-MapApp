@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationsListView: View {
     @Environment(LocationsViewViewModel.self) var viewModel
+    
     var body: some View {
         VStack(spacing:0){
             ForEach(viewModel.allLocationsExpectSelected){location in

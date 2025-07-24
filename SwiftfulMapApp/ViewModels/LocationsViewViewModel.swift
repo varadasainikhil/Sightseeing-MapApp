@@ -17,23 +17,23 @@ class LocationsViewViewModel{
     var locations : [Location]
     
     var allLocationsExpectSelected : [Location]{
-        locations.filter({$0.id != mapLocation.id})
+        locations.filter({$0.id != mapLocation!.id})
     }
     
     // Current Selected Location
-    var mapLocation : Location {
+    var mapLocation : Location? {
         didSet{
-            updateMapPosition(location: mapLocation)
-            selectedLocation = mapLocation
-        }
-    }
-    
-    // For Map selection binding only
-    var selectedLocation : Location? {
-        didSet {
-            if let selectedLocation = selectedLocation, selectedLocation.id != mapLocation.id {
-                mapLocation = selectedLocation
-            }
+                updateMapPosition(location: mapLocation ?? Location(
+                    name: "Colosseum",
+                    cityName: "Rome",
+                    coordinates: CLLocationCoordinate2D(latitude: 41.8902, longitude: 12.4922),
+                    description: "The Colosseum is an oval amphitheatre in the centre of the city of Rome, Italy, just east of the Roman Forum. It is the largest ancient amphitheatre ever built, and is still the largest standing amphitheatre in the world today, despite its age.",
+                    imageNames: [
+                        "rome-colosseum-1",
+                        "rome-colosseum-2",
+                        "rome-colosseum-3",
+                    ],
+                    link: "https://en.wikipedia.org/wiki/Colosseum"))
         }
     }
     
@@ -46,6 +46,12 @@ class LocationsViewViewModel{
     // static map span
     let mapSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     
+    // showing the sheet for Detail View
+    var showingSheet = false
+    
+    // Private flag to prevent circular updates
+    private var isUpdatingProgrammatically = false
+    
     init() {
         let locations = LocationsDataService.locations
         self.locations = locations
@@ -56,7 +62,6 @@ class LocationsViewViewModel{
         
         self.mapLocation = firstLocation
         self.mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: firstLocation.coordinates, span: mapSpan))
-        self.selectedLocation = firstLocation
     }
     
     private func updateMapPosition(location : Location){
@@ -66,19 +71,19 @@ class LocationsViewViewModel{
     }
     
     func goToNextLocation(){
-        guard let index = locations.firstIndex(where: {$0.id == mapLocation.id}) else {
+        guard let index = locations.firstIndex(where: {$0.id == mapLocation!.id}) else {
             print("Index not found.")
             return
         }
+        let nextLocation: Location
         if index == locations.count-1{
-            withAnimation {
-                mapLocation = locations[0]
-            }
+            nextLocation = locations[0]
+        } else {
+            nextLocation = locations[index + 1]
         }
-        else{
-            withAnimation {
-                mapLocation = locations[index + 1]
-            }
+        
+        withAnimation {
+            mapLocation = nextLocation
         }
     }
 }

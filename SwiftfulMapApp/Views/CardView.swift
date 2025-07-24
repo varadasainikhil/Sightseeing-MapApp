@@ -28,7 +28,7 @@ struct CardView: View {
                             .frame(width: 110, height: 110)
                         
                         
-                        Image(viewModel.mapLocation.imageNames.first!)
+                        Image(viewModel.mapLocation!.imageNames.first!)
                             .resizable()
                             .frame(width: 100, height: 100)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -36,7 +36,7 @@ struct CardView: View {
                     .shadow(radius: 10)
                     .padding(.bottom)
                     
-                    Text(viewModel.mapLocation.name)
+                    Text(viewModel.mapLocation!.name)
                         .font(.headline.bold())
                         .frame(minHeight: 40)
                     
@@ -49,6 +49,7 @@ struct CardView: View {
                 VStack{
                     Button {
                         // Action to open sheet
+                        viewModel.showingSheet.toggle()
                     } label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 12)
@@ -65,7 +66,7 @@ struct CardView: View {
                     Button {
                         // Action to go to next
                         viewModel.goToNextLocation()
-                            
+                        
                         
                     } label: {
                         ZStack{
@@ -86,7 +87,6 @@ struct CardView: View {
             .padding()
             
         }
-        
     }
 }
 

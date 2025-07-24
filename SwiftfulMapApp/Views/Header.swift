@@ -12,7 +12,7 @@ struct Header: View {
     var body: some View {
         VStack{
             HStack{
-                Text(viewModel.mapLocation.name + ", " + viewModel.mapLocation.cityName)
+                Text(viewModel.mapLocation!.name + ", " + viewModel.mapLocation!.cityName)
                     .font(.title2)
                     .fontWeight(.black)
                     .foregroundStyle(.primary)
