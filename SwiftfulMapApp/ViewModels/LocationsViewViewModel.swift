@@ -86,4 +86,16 @@ class LocationsViewViewModel{
             mapLocation = nextLocation
         }
     }
+    
+    func openMapsWithDirections(){
+        if let url = URL(string: "http://maps.apple.com/?daddr=\(mapLocation!.coordinates.latitude),\(mapLocation!.coordinates.longitude)&dirflg=d"){
+            UIApplication.shared.open(url)
+        }
+        else {
+            print("Could not open maps.")
+        }
+        
+        
+    }
+    
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct DetailView: View {
     @Environment(LocationsViewViewModel.self) var viewModel
@@ -65,6 +66,7 @@ struct DetailView: View {
             
             Button{
                 // Give directions to the location
+                viewModel.openMapsWithDirections()
             }label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 12)
